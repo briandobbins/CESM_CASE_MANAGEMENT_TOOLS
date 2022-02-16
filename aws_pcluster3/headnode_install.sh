@@ -17,3 +17,12 @@ ln -s /usr/bin/python3 /usr/bin/python
 
 # Also add the compilers to the /etc/profile.d/oneapi.sh
 echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' > /etc/profile.d/oneapi.sh
+
+# Get CESM2.1.4-rc.10
+cd /opt/ncar
+
+git clone -b cesm2.1.4-rc.10 https://github.com/ESCOMP/CESM.git cesm
+
+# Add this to our path:
+echo 'export PATH=/opt/ncar/cesm/cime/scripts:${PATH}' > /etc/profile.d/cesm.sh
+
