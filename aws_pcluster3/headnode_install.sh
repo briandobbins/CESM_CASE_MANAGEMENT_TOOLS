@@ -22,6 +22,11 @@ echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' > /etc/profile.d/oneapi.s
 cd /opt/ncar
 git clone -b cesm2.1.4-rc.10 https://github.com/ESCOMP/CESM.git cesm
 cd cesm
+svn --username=guestuser --password=friendly list https://svn-ccsm-models.cgd.ucar.edu << EOF
+p
+yes
+EOF
+./manage_externals/checkout_externals
 
 
 # Change user limits for ec2-user:
@@ -44,7 +49,7 @@ source /opt/intel/oneapi/setvars.sh --force > /dev/null
 export I_MPI_FABRICS=ofi
 export I_MPI_OFI_PROVIDER=efa
 
-export PATH=${PATH}:/opt/ncar/software/bin
+export PATH=\${PATH}:/opt/ncar/software/bin
 export I_MPI_PMI_LIBRARY=/opt/slurm/lib/libpmi.so
 EOF
 
