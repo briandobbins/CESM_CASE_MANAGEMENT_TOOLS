@@ -55,4 +55,5 @@ EOF
 
 # Add this to our path:
 echo 'export PATH=/opt/ncar/cesm/cime/scripts:${PATH}' > /etc/profile.d/cesm.sh
+echo 'export CIME_MACHINE=aws-hpc6a' >> /etc/profile.d/cesm.sh
 
