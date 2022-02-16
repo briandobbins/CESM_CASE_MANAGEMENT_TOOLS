@@ -48,7 +48,7 @@ export FPATH=/opt/ncar/software/include
 
 # OK, check if our precompiled stuff is available; if not, we'll build it:
 
-curl ftp://cesm-inputdata-lowres1.cgd.ucar.edu/cesm/low-res/cloud/ncar_software.tar.gz --output /tmp/ncar_software.tar.gz
+curl ftp://cesm-inputdata-lowres1.cgd.ucar.edu/cesm/low-res/cloud/ncar_software_full.tar.gz --output /tmp/ncar_software.tar.gz
 if [ -f /tmp/ncar_software.tar.gz ]; then
   cd /opt/ncar/ && tar zxvf /tmp/ncar_software.tar.gz
   rm -f /tmp/ncar_software.tar.gz
