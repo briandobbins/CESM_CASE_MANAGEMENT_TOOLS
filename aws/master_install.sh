@@ -15,6 +15,7 @@ EOF
 
 # Install various tools we need for users (some of these are probably already on here, but I'm aiming for 
 # consistency with the container setup, so duplicates will just be skipped)
+yum -y upgrade 
 yum -y install vim emacs-nox git subversion which sudo csh make m4 cmake wget file byacc curl-devel zlib-devel
 yum -y install perl-XML-LibXML gcc-gfortran gcc-c++ dnf-plugins-core python3 perl-core ftp numactl-devel
 
@@ -28,7 +29,7 @@ ln -s /usr/bin/python3 /usr/bin/python
 # Install the 'limited' set of Intel tools we need - note that this also downloads
 # and installs >25 other packages, but it's still only a 3GB install, vs the 20GB
 # you get from the 'intel-hpckit' meta-package.
-yum -y install intel-oneapi-compiler-fortran-2021.3.0 intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic-2021.3.0 intel-oneapi-mpi-devel-2021.3.0 
+yum -y install intel-oneapi-compiler-fortran-2022.0.2 intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic-2022.0.2 intel-oneapi-mpi-devel-2022.0.2 
 
 # Now add all our libraries, into /opt/ncar/software/lib so they're accessible by compute nodes:
 # (Note: This needs to be cleaned up for better updating of versions later!)
@@ -38,6 +39,7 @@ echo '/opt/ncar/software/lib' > /etc/ld.so.conf.d/ncar.conf
 
 # Also add the compilers to the /etc/profile.d/oneapi.sh
 echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' > /etc/profile.d/oneapi.sh
+
 
 export LIBRARY_PATH=/opt/ncar/software/lib
 export LD_LIBRARY_PATH=/opt/ncar/software/lib
@@ -84,7 +86,7 @@ else
 fi
 
 cd /tmp
-wget -q https://raw.githubusercontent.com/CESM-Development/CESM_CASE_MANAGEMENT_TOOLS/cesm2-waccm/aws/add_geostrat.sh
-sh add_geostrat.sh
+#wget -q https://raw.githubusercontent.com/CESM-Development/CESM_CASE_MANAGEMENT_TOOLS/cesm2-waccm/aws/add_geostrat.sh
+#sh add_geostrat.sh
 
 
