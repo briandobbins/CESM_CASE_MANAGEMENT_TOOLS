@@ -2,7 +2,7 @@
 ### set env variables
 
 setenv CESM2_TOOLS_ROOT /home/geostrat/CESM_CASE_MANAGEMENT_TOOLS
-setenv CESMROOT /home/geostrat/cesm
+setenv CESMROOT /opt/ncar/cesm
 
 set COMPSET = BWSSP245cmip6
 set SCENARIO = SSP245
@@ -71,6 +71,9 @@ $CESMROOT/cime/scripts/create_newcase --compset ${COMPSET} --res f09_g17 --case 
   ./xmlchange STOP_N=$STOP_N
   ./xmlchange STOP_OPTION=$STOP_OPTION
   ./xmlchange RESUBMIT=$RESUBMIT
+
+  ./xmlchange PIO_TYPENAME=netcdf
+
 
 
 echo " Copy Restarts -------------"
