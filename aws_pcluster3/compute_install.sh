@@ -1,10 +1,10 @@
 #!/bin/bash
 
-groupadd cesm -g 1000
+groupadd cesm -g 1001
 # add the 'geostrat' user (later, this functionality will be handled by the API)
 # We'll check if the /home/geostrat directory exists and call with -M if it does:
 if [ -d /home/geostrat ]; then
-  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1000 -g cesm -M -s /bin/bash geostrat
+  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1001 -g cesm -M -s /bin/bash geostrat
 fi
 
 ln -s /usr/bin/python3 /usr/bin/python

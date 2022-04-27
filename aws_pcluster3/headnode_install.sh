@@ -5,11 +5,11 @@ sh master_install.sh > /tmp/master_install.log
 
 # add the 'geostrat' user (later, this functionality will be handled by the API)
 # We'll check if the /home/geostrat directory exists and call with -M if it does:
-groupadd cesm
+groupadd cesm -g 1001
 if [ -d /home/geostrat ]; then
-  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1000 -g cesm -M -s /bin/bash geostrat
+  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1001 -g cesm -M -s /bin/bash geostrat
 else
-  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1000 -g cesm -s /bin/bash geostrat
+  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1001 -g cesm -s /bin/bash geostrat
 fi
 
 
@@ -69,3 +69,5 @@ echo 'export PATH=/opt/ncar/cesm/cime/scripts:${PATH}' > /etc/profile.d/cesm.sh
 echo 'export CIME_MACHINE=aws-hpc6a' >> /etc/profile.d/cesm.sh
 echo 'export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:/opt/ncar/software/lib' >> /etc/profile.d/cesm.sh
 
+# Add Singularity
+yum install -y singularity
