@@ -5,13 +5,13 @@ sh master_install.sh > /tmp/master_install.log
 
 # add the 'geostrat' user (later, this functionality will be handled by the API)
 # We'll check if the /home/geostrat directory exists and call with -M if it does:
-groupadd cesm -g 1001
-if [ -d /home/geostrat ]; then
-  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1001 -g cesm -M -s /bin/bash geostrat
-else
-  adduser -c "NCAR GeoStrat" -d /home/geostrat -u 1001 -g cesm -s /bin/bash geostrat
-fi
+groupadd ctsm -g 1001
 
+adduser -c "Danica L" -d /home/danical -u 1101 -g ctsm -s /bin/bash danical
+adduser -c "Will W" -d /home/willw -u 1102 -g ctsm -s /bin/bash willw
+adduser -c "Negin S" -d /home/negins -u 1103 -g ctsm -s /bin/bash negins
+adduser -c "Adrianna F" -d /home/adriannaf -u 1104 -g ctsm -s /bin/bash adriannaf
+adduser -c "Brian D" -d /home/briand -u 1105 -g ctsm -s /bin/bash briand
 
 ln -s /usr/bin/python3 /usr/bin/python
 
@@ -23,7 +23,7 @@ echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' > /etc/profile.d/oneapi.s
 
 # Get CESM2.1.4-rc.10
 cd /opt/ncar
-git clone -b cesm2.1.4-rc.10 https://github.com/ESCOMP/CESM.git cesm
+git clone https://github.com/ESCOMP/CTSM.git cesm
 cd cesm
 svn --username=guestuser --password=friendly list https://svn-ccsm-models.cgd.ucar.edu << EOF
 p
@@ -32,9 +32,9 @@ EOF
 #./manage_externals/checkout_externals
 
 # Give sudo access to geostrat:
-cat << EOF >> /etc/sudoers.d/91-geostrat
+cat << EOF >> /etc/sudoers.d/91-ctsmworkshop
 # User rules for ec2-user
-geostrat ALL=(ALL) NOPASSWD:ALL
+briand   ALL=(ALL) NOPASSWD:ALL
 EOF
 
 
@@ -42,16 +42,32 @@ EOF
 cat << EOF >> /etc/security/limits.conf
 ec2-user         hard    stack           -1
 ec2-user         soft    stack           -1
-geostrat         hard    stack           -1
-geostrat         soft    stack           -1
+danical          hard    stack           -1
+danical          soft    stack           -1
+willw            hard    stack           -1
+willw            soft    stack           -1
+negins           hard    stack           -1
+negins           soft    stack           -1
+adriannaf        hard    stack           -1
+adriannaf        soft    stack           -1
+briand           hard    stack           -1
+briand           soft    stack           -1
 EOF
 
 # Make the scratch/inputdata directory for ec2-user
-mkdir -p /scratch/geostrat/inputdata
-chown -R geostrat:cesm /scratch/geostrat
+mkdir -p /scratch/danical
+chown -R danical:ctsm /scratch/danical
+mkdir -p /scratch/willw
+chown -R willw:ctsm   /scratch/willw
+mkdir -p /scratch/negins
+chown -R negins:ctsm /scratch/negins
+mkdir -p /scratch/adriannaf
+chown -R adriannaf:ctsm /scratch/adriannaf
+mkdir -p /scratch/briand
+chown -R briand:ctsm /scratch/briand
 
 # Create the ~/.bashrc for geostrat:
-cat << EOF >> /home/geostrat/.bashrc
+cat << EOF >> /etc/profile.d/ctsm_env.sh
 module load libfabric-aws
 export OMP_NUM_THREADS=1
 
@@ -70,4 +86,4 @@ echo 'export CIME_MACHINE=aws-hpc6a' >> /etc/profile.d/cesm.sh
 echo 'export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:/opt/ncar/software/lib' >> /etc/profile.d/cesm.sh
 
 # Add Singularity
-yum install -y singularity
+#yum install -y singularity
