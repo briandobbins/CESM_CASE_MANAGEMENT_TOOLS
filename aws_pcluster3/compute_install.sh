@@ -11,6 +11,11 @@ adduser -c "Brian D" -d /home/briand -u 1105 -g ctsm -M -s /bin/bash briand
 
 ln -s /usr/bin/python3 /usr/bin/python
 
+# Need cmake3 for qcmd
+yum install -y cmake3
+mv /usr/bin/cmake /usr/bin/cmake.old
+ln -s /usr/bin/cmake3 /usr/bin/cmake
+
 # Set up our search path
 echo '/opt/ncar/software/lib' > /etc/ld.so.conf.d/ncar.conf
 
