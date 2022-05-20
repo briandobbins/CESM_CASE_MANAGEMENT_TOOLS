@@ -7,7 +7,7 @@ setenv CESMROOT /opt/ncar/cesm
 set COMPSET = BWSSP245cmip6
 set SCENARIO = SSP245
 set VERSION = TSMLT
-set NAMESIM = LOWER-0.5
+set NAMESIM = DELAYED-2045
 set ENS = 001
 set MACHINE = aws-arise
 set RESOLN = f09_g17
@@ -33,8 +33,9 @@ endif
 
 setenv CASEROOT  /home/geostrat/cases/$CASENAME
 #setenv CASEROOT  /glade/scratch/$USER/$CASENAME
-setenv REFDATE  2035-01-01
-setenv REFROOT  /scratch/geostrat/archive/$REFCASE/rest/${REFDATE}-00000/
+setenv REFDATE  2045-01-01
+#setenv REFROOT  /scratch/geostrat/archive/$REFCASE/rest/${REFDATE}-00000/
+setenv REFROOT /scratch/geostrat/archive/restarts/${REFDATE}-00000  
 setenv STARTDATE  $REFDATE
 set RUNDIR = /scratch/$USER/$CASENAME/run/
 
@@ -42,15 +43,15 @@ $CESMROOT/cime/scripts/create_newcase --compset ${COMPSET} --res f09_g17 --case 
 
   cd $CASEROOT
 
-  ./xmlchange NTASKS_CPL=288
-  ./xmlchange NTASKS_ATM=288
-  ./xmlchange NTASKS_LND=288
-  ./xmlchange NTASKS_ICE=288
+  ./xmlchange NTASKS_CPL=576
+  ./xmlchange NTASKS_ATM=576
+  ./xmlchange NTASKS_LND=576
+  ./xmlchange NTASKS_ICE=576
   ./xmlchange ROOTPE_ICE=0
-  ./xmlchange NTASKS_OCN=288
+  ./xmlchange NTASKS_OCN=576
   ./xmlchange ROOTPE_OCN=0
-  ./xmlchange NTASKS_ROF=288
-  ./xmlchange NTASKS_GLC=288
+  ./xmlchange NTASKS_ROF=576
+  ./xmlchange NTASKS_GLC=576
   ./xmlchange NTASKS_WAV=36
   ./xmlchange ROOTPE_WAV=0
   ./xmlchange NTASKS_ESP=1
@@ -87,8 +88,16 @@ endif
 
 echo " End restarts copy -----------"
 
-   #./case.setup --reset; ./case.setup
-   ./case.setup --reset; ./case.setup; ./case.build >& bld.`date +%m%d-%H%M`
+   ./case.setup --reset; ./case.setup
+   #./case.setup --reset; ./case.setup; ./case.build >& bld.`date +%m%d-%H%M`
+
+
+# Create the postprocessing stuff:
+   create_postprocess --caseroot=${PWD}
+
+# Get the controller stuff:
+   git clone https://github.com/briandobbins/feedback_suite.git controller # Update with Dan's new stuff
+
 
 end  # member loop
 
