@@ -15,8 +15,8 @@ set RESUBMIT = 0
 set STOP_N=1
 set STOP_OPTION=nyears
 
-set smbr =  1
-set embr =  1
+set smbr =  2
+set embr =  2
 
 @ mb = $smbr
 @ me = $embr
@@ -91,13 +91,29 @@ echo " End restarts copy -----------"
    ./case.setup --reset; ./case.setup
    #./case.setup --reset; ./case.setup; ./case.build >& bld.`date +%m%d-%H%M`
 
-
 # Create the postprocessing stuff:
    create_postprocess --caseroot=${PWD}
+   cd postprocess
+   rm env_timeseries.xml # Get rid of the default one, and use the correct one below:
+   wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/env_timeseries.xml
+   rm timeseries # Get rid of this (if it exists?) and replace
+   wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/timeseries
+   sed -i "s/CASENAME/${CASENAME}/g"
+   cd ..
 
 # Get the controller stuff:
-   git clone https://github.com/briandobbins/feedback_suite.git controller # Update with Dan's new stuff
+   #git clone https://github.com/briandobbins/feedback_suite.git controller # Update with Dan's new stuff
+   cp -rp /home/geostrat/cases/b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DELAYED-2045.001/controller .
+   cp controller/log_template.txt controller/ControlLog_${CASENAME}.txt
+   sed -i "s/runname=.*/runname=\'${CASENAME}\'" controller/main.py
 
+# Get the sync scripts:
+   mkdir sync
+   wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/sync_and_remove.sh sync/sync_and_remove.sh
+   sed -i "s/CASENAME=/CASENAME=${CASENAME}/" sync/sync_and_remove.sh
+   chmod +x sync/sync_and_remove.sh
+
+# Get the modified case.st_archive
 
 end  # member loop
 
