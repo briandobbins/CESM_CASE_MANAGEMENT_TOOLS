@@ -11,3 +11,5 @@ log_filename=/home/geostrat/cases/CASENAME/postprocess/logs/timeseries.log.$toda
 
 mpirun -n 48 apptainer run -B /home,/scratch /opt/ncar/containers/postprocessing /opt/ncar/cesm_postprocessing/cesm-env2/bin/cesm_tseries_generator.py  --caseroot /home/geostrat/cases/CASENAME/postprocess >> ${log_filename}
 
+rm -f /home/geostrat/cases/CASENAME/postprocess/logs/ts_status.log
+

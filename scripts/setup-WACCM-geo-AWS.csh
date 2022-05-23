@@ -35,7 +35,7 @@ setenv CASEROOT  /home/geostrat/cases/$CASENAME
 #setenv CASEROOT  /glade/scratch/$USER/$CASENAME
 setenv REFDATE  2045-01-01
 #setenv REFROOT  /scratch/geostrat/archive/$REFCASE/rest/${REFDATE}-00000/
-setenv REFROOT /scratch/geostrat/archive/restarts/${REFDATE}-00000  
+setenv REFROOT /scratch/geostrat/archive/restarts/${mbr}/${REFDATE}-00000  
 setenv STARTDATE  $REFDATE
 set RUNDIR = /scratch/$USER/$CASENAME/run/
 
@@ -63,7 +63,7 @@ $CESMROOT/cime/scripts/create_newcase --compset ${COMPSET} --res f09_g17 --case 
   ./xmlchange GET_REFCASE=FALSE
 
   cp $CESM2_TOOLS_ROOT/SourceMods/src.cam/* $CASEROOT/SourceMods/src.cam/
-  cp $CESM2_TOOLS_ROOT/user_nl_files/geo/user_nl_* $CASEROOT/
+  cp $CESM2_TOOLS_ROOT/user_nl_files/geo_aws/user_nl_* $CASEROOT/
 
   mv  env_batch.xml tmp.batch
   cat tmp.batch | sed 's/-N {{ job_id }}/-N TSMLT.{{ job_id }}/' > env_batch.xml
@@ -98,7 +98,8 @@ echo " End restarts copy -----------"
    wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/env_timeseries.xml
    rm timeseries # Get rid of this (if it exists?) and replace
    wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/timeseries
-   sed -i "s/CASENAME/${CASENAME}/g"
+   chmod +x timeseries
+   sed -i "s/CASENAME/${CASENAME}/g" timeseries
    cd ..
 
 # Get the controller stuff:
@@ -109,11 +110,15 @@ echo " End restarts copy -----------"
 
 # Get the sync scripts:
    mkdir sync
-   wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/sync_and_remove.sh sync/sync_and_remove.sh
-   sed -i "s/CASENAME=/CASENAME=${CASENAME}/" sync/sync_and_remove.sh
-   chmod +x sync/sync_and_remove.sh
+   cd sync
+   wget https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/aws-arise/aws_scripts/sync_and_remove.sh
+   sed -i "s/CASENAME=/CASENAME=${CASENAME}/" sync_and_remove.sh
+   chmod +x sync_and_remove.sh
+   cd ..
 
-# Get the modified case.st_archive
+# Give case.st_archive a lot longer due to the above:
+  ./xmlchange --subgroup case.st_archive JOB_WALLCLOCK_TIME=06:00:00
+
 
 end  # member loop
 
