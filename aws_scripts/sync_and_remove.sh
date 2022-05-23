@@ -31,8 +31,8 @@ echo "-- Restart Sync Finish : $(date) --"
 # Do the latest controller log:
 echo "-- Controller Sync Start : $(date) --"
 TARGET_DIR=${TARGET_BUCKET}/${CASENAME}
-echo "COMMAND: aws s3 cp ${CASE_ROOT}/controller/ControlLog*  ${TARGET_DIR} --quiet "
-aws s3 cp ${CASE_ROOT}/controller/ControlLog*  ${TARGET_DIR}/ --quiet
+echo "COMMAND: aws s3 cp ${CASE_ROOT}/controller/ControlLog_${CASENAME}.txt  ${TARGET_DIR} --quiet "
+aws s3 cp ${CASE_ROOT}/controller/ControlLog_${CASENAME}.txt  ${TARGET_DIR}/ --quiet
 echo "-- Controller Sync Finish : $(date) --"
 
 
