@@ -40,7 +40,7 @@ echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' > /etc/profile.d/oneapi.s
 
 # OK, check if our precompiled stuff is available; if not, we'll build it:
 
-curl ftp://cesm-inputdata-lowres1.cgd.ucar.edu/cesm/low-res/cloud/software/v0.1/aws/x86/intel/openmpi/software.tar.gz --output /tmp/ncar_software.tar.gz
+curl ftp://cesm-inputdata-lowres1.cgd.ucar.edu/cloud/software/v0.1/aws/x86/intel/openmpi/software.tar.gz --output /tmp/ncar_software.tar.gz
 if [ -f /tmp/ncar_software.tar.gz ]; then
   cd /opt/ncar/ && tar zxvf /tmp/ncar_software.tar.gz
   rm -f /tmp/ncar_software.tar.gz

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-curl -o master_install.sh https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/openmpi/aws/main_install.sh
-sh master_install.sh > /tmp/master_install.log
+curl -o main_install.sh https://raw.githubusercontent.com/briandobbins/CESM_CASE_MANAGEMENT_TOOLS/openmpi/aws/main_install.sh
+sh main_install.sh > /tmp/main_install.log
 
 
 # Also add the compilers to the /etc/profile.d/oneapi.sh
