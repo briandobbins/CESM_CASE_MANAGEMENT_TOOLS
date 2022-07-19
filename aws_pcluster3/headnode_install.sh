@@ -35,6 +35,10 @@ export OMP_NUM_THREADS=1
 
 
 export PATH=/opt/ncar/software/bin:\$PATH
+
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
 EOF
 
 # Add this to our path:
