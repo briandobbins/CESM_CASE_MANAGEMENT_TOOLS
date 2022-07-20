@@ -9,7 +9,7 @@ echo 'source /opt/intel/oneapi/setvars.sh > /dev/null' > /etc/profile.d/oneapi.s
 
 # Get CESM2.1.4-rc.10
 cd /opt/ncar
-git clone -b cesm2.1.4-rc.10 https://github.com/ESCOMP/CESM.git cesm
+git clone -b aws_openmpi_batch https://github.com/briandobbins/CESM cesm
 cd cesm
 svn --username=guestuser --password=friendly list https://svn-ccsm-models.cgd.ucar.edu << EOF
 p
